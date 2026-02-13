@@ -104,7 +104,7 @@ class Nicole:
 
                 response_text = ""
                 async with self.async_client.messages.stream(
-                    model="claude-3-5-sonnet-20241022",
+                    model="claude-3-5-sonnet-20240620",
                     max_tokens=800,  # Sufficient for detailed responses with lists
                     system=system_prompt,
                     messages=messages
