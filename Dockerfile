@@ -32,5 +32,5 @@ RUN chmod +x start.sh
 # Expose port (Railway uses $PORT environment variable)
 EXPOSE 8000
 
-# Run application via shell script
-CMD ["./start.sh"]
+# Run application via shell script (shell form to invoke bash)
+CMD /bin/bash ./start.sh
