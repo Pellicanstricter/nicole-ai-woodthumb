@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wood Thumb - Nicole AI Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Password Overlay */
+    #password-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+    }
+
+    #password-overlay.hidden {
+      display: none;
+    }
+
+    .password-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .password-box h2 {
+      margin-bottom: 10px;
+      color: #000;
+      font-size: 24px;
+    }
+
+    .password-box p {
+      margin-bottom: 30px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .password-box input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e5e5;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .password-box input:focus {
+      outline: none;
+      border-color: #5b9db5;
+    }
+
+    .password-box button {
+      width: 100%;
+      padding: 12px;
+      background: #5b9db5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .password-box button:hover {
+      background: #4a8ca3;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      font-size: 14px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      min-height: 100vh;
+    }
+
+    /* Hero Section - matching Wood Thumb style */
+    .hero {
+      position: relative;
+      height: 600px;
+      background: url('https://images.squarespace-cdn.com/content/v1/61f97488f4cca024948c5a39/1647286331932-9WSD3VV012S85V2TUG1W/220303_WoodThumb_085_Hero_HiRes2.jpg') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 40px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #000000;
+      letter-spacing: 2px;
+    }
+
+    .demo-badge {
+      background: #5b9db5;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Content Section */
+    .content {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 40px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #000000;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    /* Footer */
+    footer {
+      background: #f9f9f9;
+      border-top: 1px solid #e5e5e5;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      color: #666666;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.2rem; }
+      nav { padding: 15px 20px; }
+      .content { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Password Protection -->
+  <div id="password-overlay">
+    <div class="password-box">
+      <h2>Nicole AI Demo</h2>
+      <p>Enter password to access the demo</p>
+      <input type="password" id="password-input" placeholder="Enter password">
+      <button onclick="checkPassword()">Enter Demo</button>
+      <div class="error-message" id="error-message">Incorrect password. Please try again.</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">WOOD THUMB</div>
+    <div class="demo-badge">AI Demo - Nicole</div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Welcome to the woodshop.</h1>
+      <p>It's time for class.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- About Section -->
+    <section class="section" id="about">
+      <h2>Try Nicole - Your AI Workshop Assistant</h2>
+      <p>
+        Click the chat button in the bottom right to start a conversation with Nicole,
+        Wood Thumb's AI assistant. Nicole can help you:
+      </p>
+      <ul style="font-size: 1.1rem; line-height: 2; color: #333; margin-left: 20px;">
+        <li>Explore team building events with instant pricing calculations</li>
+        <li>Learn about beginner woodworking workshops</li>
+        <li>Book shop time for your own projects</li>
+        <li>Get answers about policies, hours, and requirements</li>
+      </ul>
+      <p style="margin-top: 30px;">
+        <strong>Demo Instructions:</strong> Try asking "I want to plan a team event"
+        and specify how many people. Watch Nicole calculate the total cost for each option!
+      </p>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <strong>Wood Thumb</strong><br>
+      968 Mission St.<br>
+      San Francisco, CA 94103<br>
+      (415) 295-5047<br>
+      chris@woodthumb.com
+    </div>
+  </footer>
+
+  <!-- Nicole Chat Widget -->
+  <link rel="stylesheet" href="http://localhost:8000/widget/nicole-widget.css">
+  <script>
+    // Password protection
+    const CORRECT_PASSWORD = 'wood';
+
+    function checkPassword() {
+      const input = document.getElementById('password-input');
+      const overlay = document.getElementById('password-overlay');
+      const errorMsg = document.getElementById('error-message');
+
+      if (input.value === CORRECT_PASSWORD) {
+        overlay.classList.add('hidden');
+        localStorage.setItem('nicole-demo-auth', 'true');
+      } else {
+        errorMsg.classList.add('show');
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    // Check if already authenticated
+    if (localStorage.getItem('nicole-demo-auth') === 'true') {
+      document.getElementById('password-overlay').classList.add('hidden');
+    }
+
+    // Allow Enter key to submit
+    document.getElementById('password-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkPassword();
+      }
+    });
+
+    // Configure API URL for local development
+    window.NICOLE_API_URL = 'http://localhost:8000/api';
+  </script>
+  <script src="http://localhost:8000/widget/nicole-widget.js"></script>
+</body>
+</html>

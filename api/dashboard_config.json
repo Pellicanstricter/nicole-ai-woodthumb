@@ -1,0 +1,26 @@
+{
+  "assistant_identity": {
+    "assistant_name": "Nicole",
+    "assistant_title": "AI Assistant",
+    "intro_message": "Hi! I'm Nicole, Wood Thumb's AI assistant. How can I help?"
+  },
+  "scheduling": {
+    "platform": "xola_and_acuity",
+    "workshop_booking_url": "https://woodthumb.com/workshops",
+    "workshop_calendar_url": "https://checkout.xola.app/index.html#buttons/6102009c9ba60d1185481f55",
+    "team_booking_url": "https://woodthumb.as.me/schedule/73e6f342",
+    "shop_booking_url": "https://woodthumb.as.me/schedule/73e6f342/appointment/40480279/calendar/6567272",
+    "show_available_times": true,
+    "auto_suggest_booking": true
+  },
+  "event_display": {
+    "featured_events": [
+      "Triangle Shelf ($94)",
+      "Walnut Cutting Board ($94)",
+      "Wedge Side Table ($148)",
+      "Rainbow Cutting Board ($158)"
+    ],
+    "show_pricing": true,
+    "detail_level": "moderate"
+  }
+}

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wood Thumb - Community Woodshop</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #ffffff;
+      color: #000000;
+      min-height: 100vh;
+    }
+
+    /* Hero Section - matching Wood Thumb style */
+    .hero {
+      position: relative;
+      height: 600px;
+      background: url('https://images.squarespace-cdn.com/content/v1/61f97488f4cca024948c5a39/1647286331932-9WSD3VV012S85V2TUG1W/220303_WoodThumb_085_Hero_HiRes2.jpg') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 40px;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #000000;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #000000;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #5b9db5;
+    }
+
+    /* Content Section */
+    .content {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 40px;
+    }
+
+    .section {
+      margin-bottom: 80px;
+    }
+
+    .section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #000000;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+
+    .workshops-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .workshop-card {
+      background: #ffffff;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .workshop-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .workshop-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .workshop-content {
+      padding: 24px;
+    }
+
+    .workshop-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #000000;
+    }
+
+    .workshop-price {
+      color: #5b9db5;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .workshop-description {
+      color: #666666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #5b9db5;
+      color: white;
+      padding: 14px 32px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s;
+      margin-top: 20px;
+    }
+
+    .cta-button:hover {
+      background: #4a8ca3;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background: #f9f9f9;
+      border-top: 1px solid #e5e5e5;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .footer-links a {
+      color: #666666;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #5b9db5;
+    }
+
+    .contact-info {
+      color: #666666;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .contact-info strong {
+      color: #000000;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.2rem; }
+      nav { padding: 15px 20px; }
+      .nav-links { gap: 15px; font-size: 0.9rem; }
+      .content { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">WOOD THUMB</div>
+    <ul class="nav-links">
+      <li><a href="#workshops">Workshops</a></li>
+      <li><a href="#team">Team Events</a></li>
+      <li><a href="#shop">Shop Time</a></li>
+      <li><a href="#custom">Custom</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Welcome to the woodshop.</h1>
+      <p>It's time for class.</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <!-- About Section -->
+    <section class="section" id="about">
+      <h2>Make Something Real With Your Hands</h2>
+      <p>
+        Wood Thumb is a traditional San Francisco woodshop offering hands-on woodworking classes
+        where you learn new skills and leave with a finished project. Located in the SOMA district,
+        we provide a welcoming space for beginners and experienced woodworkers alike.
+      </p>
+      <p>
+        Whether you're looking to take a workshop, rent shop time, or plan a team building event,
+        we're here to help you create something beautiful.
+      </p>
+    </section>
+
+    <!-- Workshops Section -->
+    <section class="section" id="workshops">
+      <h2>Popular Workshops</h2>
+      <p>All workshops are beginner-friendly with no prior experience required!</p>
+
+      <div class="workshops-grid">
+        <div class="workshop-card">
+          <div class="workshop-image" style="background: linear-gradient(135deg, #8B7355 0%, #D4A574 100%);"></div>
+          <div class="workshop-content">
+            <div class="workshop-title">Triangle Shelf</div>
+            <div class="workshop-price">$94</div>
+            <div class="workshop-description">
+              Create a minimalist wall-mounted shelf with geometric design. Perfect first project for beginners.
+            </div>
+          </div>
+        </div>
+
+        <div class="workshop-card">
+          <div class="workshop-image" style="background: linear-gradient(135deg, #6B4423 0%, #A67C52 100%);"></div>
+          <div class="workshop-content">
+            <div class="workshop-title">Walnut Cutting Board</div>
+            <div class="workshop-price">$94</div>
+            <div class="workshop-description">
+              Build a beautiful hardwood cutting board while learning to use various power tools.
+            </div>
+          </div>
+        </div>
+
+        <div class="workshop-card">
+          <div class="workshop-image" style="background: linear-gradient(135deg, #5b9db5 0%, #7bb3ca 100%);"></div>
+          <div class="workshop-content">
+            <div class="workshop-title">Wedge Side Table</div>
+            <div class="workshop-price">$148</div>
+            <div class="workshop-description">
+              Construct an elegant modern end table perfect for small spaces. Learn table joinery and finishing.
+            </div>
+          </div>
+        </div>
+
+        <div class="workshop-card">
+          <div class="workshop-image" style="background: linear-gradient(135deg, #C17E5D 0%, #E09B7D 100%);"></div>
+          <div class="workshop-content">
+            <div class="workshop-title">Rainbow Cutting Board</div>
+            <div class="workshop-price">$158</div>
+            <div class="workshop-description">
+              Advanced cutting board with colorful wood inlays. For those with prior workshop experience.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a href="https://woodthumb.com/workshops" class="cta-button">View All Workshops & Book</a>
+    </section>
+
+    <!-- Team Events Section -->
+    <section class="section" id="team">
+      <h2>Team Building Events</h2>
+      <p>
+        Connect with your team through hands-on woodworking. Perfect for company offsites,
+        team building, and group celebrations. Everyone leaves with a handcrafted project.
+      </p>
+      <p>
+        <strong>Contact us to plan your event:</strong><br>
+        Email: chris@woodthumb.com<br>
+        Phone: (415) 295-5047
+      </p>
+    </section>
+
+    <!-- Shop Time Section -->
+    <section class="section" id="shop">
+      <h2>Shop Time</h2>
+      <p>
+        Rent access to our fully-equipped woodshop for your own projects. Perfect for ongoing
+        work or custom pieces. Experienced staff available for questions.
+      </p>
+      <p>
+        <strong>Pricing:</strong> $80 per 2-hour session<br>
+        <strong>First-time users:</strong> $20 safety orientation required
+      </p>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <ul class="footer-links">
+        <li><a href="https://woodthumb.com/workshops">Workshops</a></li>
+        <li><a href="mailto:chris@woodthumb.com">Contact</a></li>
+        <li><a href="https://www.instagram.com/woodthumb">Instagram</a></li>
+      </ul>
+
+      <div class="contact-info">
+        <strong>Wood Thumb</strong><br>
+        968 Mission St.<br>
+        San Francisco, CA 94103<br>
+        (415) 295-5047<br>
+        chris@woodthumb.com
+      </div>
+    </div>
+  </footer>
+
+  <!-- Nicole Chat Widget -->
+  <link rel="stylesheet" href="http://localhost:8000/widget/nicole-widget.css">
+  <script>
+    // Configure API URL for local development
+    window.NICOLE_API_URL = 'http://localhost:8000/api';
+  </script>
+  <script src="http://localhost:8000/widget/nicole-widget.js"></script>
+</body>
+</html>
