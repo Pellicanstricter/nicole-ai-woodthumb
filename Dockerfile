@@ -21,12 +21,16 @@ COPY --from=builder /root/.local /root/.local
 COPY api/ ./api/
 COPY knowledge/ ./knowledge/
 COPY widget/ ./widget/
+COPY start.sh ./start.sh
 
 # Make sure scripts are in PATH
 ENV PATH=/root/.local/bin:$PATH
 
+# Make start script executable
+RUN chmod +x start.sh
+
 # Expose port (Railway uses $PORT environment variable)
 EXPOSE 8000
 
-# Run application
-CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Run application via shell script
+CMD ["./start.sh"]
