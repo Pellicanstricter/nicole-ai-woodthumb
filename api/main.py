@@ -26,6 +26,7 @@ app.add_middleware(
     allow_origins=[
         "https://woodthumb.com",
         "https://www.woodthumb.com",
+        "https://nicole-ai-woodthumb-production.up.railway.app",
         "http://localhost:3000",
         "http://localhost:8000",
     ],
