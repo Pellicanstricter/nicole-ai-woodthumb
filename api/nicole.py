@@ -4,10 +4,11 @@ Handles conversations using Claude API
 """
 
 from typing import List, Dict, Optional, AsyncIterator
-from anthropic import Anthropic, AsyncAnthropic
+from anthropic import Anthropic, AsyncAnthropic, APIStatusError
 from .config import settings
 from .prompts import get_system_prompt
 from .intents import classifier
+import asyncio
 
 
 class Nicole:
@@ -87,44 +88,73 @@ class Nicole:
         message: str,
         conversation_history: Optional[List[Dict[str, str]]] = None
     ):
-        """Streaming response generation"""
+        """Streaming response generation with retry logic"""
         # Build message history
         messages = conversation_history if conversation_history else []
         messages.append({"role": "user", "content": message})
 
-        try:
-            # Get fresh system prompt with current dashboard settings
-            system_prompt = get_system_prompt()
+        # Retry logic for overloaded errors
+        max_retries = 3
+        retry_delay = 1  # seconds
 
-            response_text = ""
-            async with self.async_client.messages.stream(
-                model="claude-sonnet-4-20250514",
-                max_tokens=800,  # Sufficient for detailed responses with lists
-                system=system_prompt,
-                messages=messages
-            ) as stream:
-                async for text in stream.text_stream:
-                    response_text += text
-                    yield {
-                        "type": "chunk",
-                        "content": text
-                    }
+        for attempt in range(max_retries):
+            try:
+                # Get fresh system prompt with current dashboard settings
+                system_prompt = get_system_prompt()
 
-            # Final result
-            yield {
-                "type": "complete",
-                "response": response_text
-            }
+                response_text = ""
+                async with self.async_client.messages.stream(
+                    model="claude-sonnet-4-20250514",
+                    max_tokens=800,  # Sufficient for detailed responses with lists
+                    system=system_prompt,
+                    messages=messages
+                ) as stream:
+                    async for text in stream.text_stream:
+                        response_text += text
+                        yield {
+                            "type": "chunk",
+                            "content": text
+                        }
 
-        except Exception as e:
-            error_msg = "I'm having trouble connecting right now. Email nicole@woodthumb.com or call (415) 295-5047."
-            print(f"Nicole error: {e}")
-            import traceback
-            traceback.print_exc()
-            yield {
-                "type": "error",
-                "error": error_msg
-            }
+                # Final result
+                yield {
+                    "type": "complete",
+                    "response": response_text
+                }
+                return  # Success - exit retry loop
+
+            except APIStatusError as e:
+                error_dict = e.body if hasattr(e, 'body') else {}
+                error_type = error_dict.get('error', {}).get('type', '')
+
+                # If overloaded error and not last attempt, retry
+                if error_type == 'overloaded_error' and attempt < max_retries - 1:
+                    print(f"Anthropic API overloaded, retrying in {retry_delay}s (attempt {attempt + 1}/{max_retries})...")
+                    await asyncio.sleep(retry_delay)
+                    retry_delay *= 2  # Exponential backoff
+                    continue
+
+                # Last attempt or different error - fail
+                error_msg = "I'm having trouble connecting right now. Email nicole@woodthumb.com or call (415) 295-5047."
+                print(f"Nicole error: {e}")
+                import traceback
+                traceback.print_exc()
+                yield {
+                    "type": "error",
+                    "error": error_msg
+                }
+                return
+
+            except Exception as e:
+                error_msg = "I'm having trouble connecting right now. Email nicole@woodthumb.com or call (415) 295-5047."
+                print(f"Nicole error: {e}")
+                import traceback
+                traceback.print_exc()
+                yield {
+                    "type": "error",
+                    "error": error_msg
+                }
+                return
 
     async def generate_email_response(
         self,
