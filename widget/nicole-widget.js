@@ -11,7 +11,7 @@
 
   // Configuration
   const CONFIG = {
-    apiUrl: 'http://localhost:8000/api',  // Change in production
+    apiUrl: window.NICOLE_API_URL || 'http://localhost:8000/api',
     streamingEnabled: true
   };
 
