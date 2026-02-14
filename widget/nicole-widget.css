@@ -21,7 +21,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--nicole-secondary);
+  background: var(--nicole-primary);
   border: 2px solid var(--nicole-border);
   cursor: pointer;
   box-shadow: 0 2px 12px var(--nicole-shadow);
@@ -35,7 +35,7 @@
 .nicole-widget-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  background: var(--nicole-secondary);
+  background: var(--nicole-primary);
   border-color: var(--nicole-accent);
 }
 
