@@ -38,7 +38,6 @@
             <div class="nicole-widget-avatar nicole-logo-avatar"></div>
             <div class="nicole-widget-name">
               <h3>Wood Thumb Assistant</h3>
-              <p>Usually responds in under a minute</p>
             </div>
           </div>
           <button class="nicole-widget-close" id="nicole-close-btn" aria-label="Close chat">×</button>
@@ -50,15 +49,15 @@
             <div class="nicole-message-avatar nicole-logo-avatar"></div>
             <div class="nicole-message-wrapper">
               <div class="nicole-message-content">
-                Hey there! 👋 Got questions about workshops or want to plan something? I'm here to help!
+                Ready to make something? Ask me about workshops, team events, or open shop time.
               </div>
             </div>
           </div>
           <div class="nicole-quick-replies" id="nicole-quick-replies">
-            <button class="nicole-quick-reply" data-message="What workshops do you offer?">What can I make?</button>
-            <button class="nicole-quick-reply" data-message="How much do workshops cost?">How much?</button>
-            <button class="nicole-quick-reply" data-message="I want to plan a team event">Team event</button>
-            <button class="nicole-quick-reply" data-message="Tell me about shop time">Open shop time</button>
+            <button class="nicole-quick-reply" data-message="What workshops do you offer?">Workshops</button>
+            <button class="nicole-quick-reply" data-message="How much do workshops cost?">Pricing</button>
+            <button class="nicole-quick-reply" data-message="I want to plan a team event">Team Events</button>
+            <button class="nicole-quick-reply" data-message="Tell me about shop time">Shop Time</button>
           </div>
         </div>
 
@@ -122,7 +121,7 @@
     messageDiv.className = `nicole-message ${isUser ? 'user' : ''}`;
 
     let messageHTML = `
-      <div class="nicole-message-avatar ${isUser ? '' : 'nicole-logo-avatar'}">${isUser ? '👤' : ''}</div>
+      <div class="nicole-message-avatar ${isUser ? 'nicole-user-avatar' : 'nicole-logo-avatar'}"></div>
       <div class="nicole-message-wrapper">
         <div class="nicole-message-content">${isUser ? escapeHtml(content) : sanitizeHtml(content)}</div>
     `;
