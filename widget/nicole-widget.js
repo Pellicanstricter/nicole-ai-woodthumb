@@ -35,10 +35,10 @@
         <!-- Header -->
         <div class="nicole-widget-header">
           <div class="nicole-widget-title">
-            <div class="nicole-widget-avatar">N</div>
+            <div class="nicole-widget-avatar">🪵</div>
             <div class="nicole-widget-name">
-              <h3>Nicole</h3>
-              <p>AI Assistant</p>
+              <h3>Wood Thumb Assistant</h3>
+              <p>Usually responds in under a minute</p>
             </div>
           </div>
           <button class="nicole-widget-close" id="nicole-close-btn" aria-label="Close chat">×</button>
@@ -47,18 +47,18 @@
         <!-- Messages -->
         <div class="nicole-widget-messages" id="nicole-messages">
           <div class="nicole-message">
-            <div class="nicole-message-avatar">N</div>
+            <div class="nicole-message-avatar">🪵</div>
             <div class="nicole-message-wrapper">
               <div class="nicole-message-content">
-                Hi! I'm Nicole, Wood Thumb's AI assistant. How can I help?
+                Hey there! 👋 Got questions about workshops or want to plan something? I'm here to help!
               </div>
             </div>
           </div>
           <div class="nicole-quick-replies" id="nicole-quick-replies">
-            <button class="nicole-quick-reply" data-message="What workshops do you offer?">Workshops</button>
-            <button class="nicole-quick-reply" data-message="How much do workshops cost?">Pricing</button>
-            <button class="nicole-quick-reply" data-message="I want to plan a team event">Team Event</button>
-            <button class="nicole-quick-reply" data-message="Tell me about shop time">Shop Time</button>
+            <button class="nicole-quick-reply" data-message="What workshops do you offer?">What can I make?</button>
+            <button class="nicole-quick-reply" data-message="How much do workshops cost?">How much?</button>
+            <button class="nicole-quick-reply" data-message="I want to plan a team event">Team event</button>
+            <button class="nicole-quick-reply" data-message="Tell me about shop time">Open shop time</button>
           </div>
         </div>
 
@@ -122,7 +122,7 @@
     messageDiv.className = `nicole-message ${isUser ? 'user' : ''}`;
 
     let messageHTML = `
-      <div class="nicole-message-avatar">${isUser ? 'Y' : 'N'}</div>
+      <div class="nicole-message-avatar">${isUser ? '👤' : '🪵'}</div>
       <div class="nicole-message-wrapper">
         <div class="nicole-message-content">${isUser ? escapeHtml(content) : sanitizeHtml(content)}</div>
     `;
@@ -152,7 +152,7 @@
     typingDiv.id = 'nicole-typing-indicator';
     typingDiv.className = 'nicole-message';
     typingDiv.innerHTML = `
-      <div class="nicole-message-avatar">N</div>
+      <div class="nicole-message-avatar">🪵</div>
       <div class="nicole-message-wrapper">
         <div class="nicole-message-content">
           <div class="nicole-typing">
