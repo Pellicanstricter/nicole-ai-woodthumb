@@ -35,7 +35,7 @@
         <!-- Header -->
         <div class="nicole-widget-header">
           <div class="nicole-widget-title">
-            <div class="nicole-widget-avatar">🪵</div>
+            <div class="nicole-widget-avatar nicole-logo-avatar"></div>
             <div class="nicole-widget-name">
               <h3>Wood Thumb Assistant</h3>
               <p>Usually responds in under a minute</p>
@@ -47,7 +47,7 @@
         <!-- Messages -->
         <div class="nicole-widget-messages" id="nicole-messages">
           <div class="nicole-message">
-            <div class="nicole-message-avatar">🪵</div>
+            <div class="nicole-message-avatar nicole-logo-avatar"></div>
             <div class="nicole-message-wrapper">
               <div class="nicole-message-content">
                 Hey there! 👋 Got questions about workshops or want to plan something? I'm here to help!
@@ -122,7 +122,7 @@
     messageDiv.className = `nicole-message ${isUser ? 'user' : ''}`;
 
     let messageHTML = `
-      <div class="nicole-message-avatar">${isUser ? '👤' : '🪵'}</div>
+      <div class="nicole-message-avatar ${isUser ? '' : 'nicole-logo-avatar'}">${isUser ? '👤' : ''}</div>
       <div class="nicole-message-wrapper">
         <div class="nicole-message-content">${isUser ? escapeHtml(content) : sanitizeHtml(content)}</div>
     `;
@@ -152,7 +152,7 @@
     typingDiv.id = 'nicole-typing-indicator';
     typingDiv.className = 'nicole-message';
     typingDiv.innerHTML = `
-      <div class="nicole-message-avatar">🪵</div>
+      <div class="nicole-message-avatar nicole-logo-avatar"></div>
       <div class="nicole-message-wrapper">
         <div class="nicole-message-content">
           <div class="nicole-typing">
