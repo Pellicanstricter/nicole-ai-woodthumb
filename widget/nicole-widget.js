@@ -19,6 +19,7 @@
   let conversationHistory = [];
   let isOpen = false;
   let isProcessing = false;
+  const sessionId = 'ses-' + Math.random().toString(36).substring(2, 10);
 
   // Create widget HTML
   function createWidget() {
@@ -207,6 +208,7 @@
         body: JSON.stringify({
           message: message,
           conversation_history: conversationHistory,
+          session_id: sessionId,
           stream: CONFIG.streamingEnabled
         })
       });

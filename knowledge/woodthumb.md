@@ -438,3 +438,10 @@ Questions? Contact us: nicole@woodthumb.com or (415) 295-5047
 **Follow us:**
 Instagram: @woodthumb
 Website: woodthumb.com
+
+### can i order food?
+-you are welcome to order food or arrange your own catering, pizza is a great addition to an evening workshop. For the best flow of the workshop, order food for midaway through delivery. example: 7:30pm for a 6pm start time. 
+
+### what kind of wood is used?
+Triangle workshop uses pine, walnut for the cutting boards, walnut for bottle openers or vases, pine for pinewood derby, mixed hardwoods for picture frame.
+

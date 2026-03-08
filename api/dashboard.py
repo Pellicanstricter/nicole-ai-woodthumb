@@ -8,6 +8,7 @@ from typing import List, Dict, Optional
 from datetime import datetime, timedelta
 import json
 from pathlib import Path
+from .conversation_store import get_conversations as get_stored_conversations, get_session_conversations
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 
@@ -43,106 +44,70 @@ class ResponseTemplate(BaseModel):
     email_signature: str
     brand_voice: str
 
-class ConversationLog(BaseModel):
-    id: str
-    timestamp: datetime
-    customer_email: str
-    subject: str
-    message: str
-    response: str
-    confidence: float
-    routing: str  # auto_send, draft, flag
-    intent: str
+class LoginRequest(BaseModel):
+    password: str
 
-# Mock data storage (replace with database in production)
-MOCK_CONVERSATIONS = [
-    {
-        "id": "1",
-        "timestamp": datetime.now() - timedelta(minutes=5),
-        "customer_email": "sarah.chen@gmail.com",
-        "customer_name": "Sarah Chen",
-        "subject": "Workshop inquiry",
-        "message": "Hi! What workshops do you offer for complete beginners? I've never done woodworking before but I'm really interested in learning.",
-        "response": "Hi Sarah! I'm Nicole, Wood Thumb's AI assistant. Great news - all our workshops are designed for complete beginners! Here are some popular options...",
-        "confidence": 0.92,
-        "routing": "auto_send",
-        "intent": "workshop_inquiry"
-    },
-    {
-        "id": "2",
-        "timestamp": datetime.now() - timedelta(minutes=23),
-        "customer_email": "events@techcorp.com",
-        "customer_name": "TechCorp Events",
-        "subject": "Team event request",
-        "message": "We're interested in booking a team building event for 15 employees. What are your options and what would the cost be?",
-        "response": "Hi! Thanks for reaching out about team building at Wood Thumb. For a group of 15 people, here are our options...",
-        "confidence": 0.78,
-        "routing": "draft",
-        "intent": "team_event_inquiry"
-    },
-    {
-        "id": "3",
-        "timestamp": datetime.now() - timedelta(hours=1),
-        "customer_email": "artist@studio.com",
-        "customer_name": "Art Studio",
-        "subject": "Complex custom work inquiry",
-        "message": "I'm working on a multimedia art installation involving reclaimed wood with very specific dimensions and artistic requirements. Can you help?",
-        "response": "Hi! This sounds like an interesting project. Custom artistic work with specific requirements is best discussed directly with our team...",
-        "confidence": 0.45,
-        "routing": "flag",
-        "intent": "custom_work_inquiry"
-    }
-]
+# Authentication
+@router.post("/auth")
+async def dashboard_login(request: LoginRequest):
+    """Simple password login for dashboard"""
+    from .config import settings
+    if request.password == settings.dashboard_password:
+        return {"status": "success", "message": "Authenticated"}
+    raise HTTPException(status_code=401, detail="Invalid password")
 
 # Statistics
 @router.get("/stats")
 async def get_dashboard_stats():
     """Get overview statistics for dashboard"""
+    conversations = get_stored_conversations(limit=10000, days=None)
+    total = len(conversations)
+
+    # Get this week's conversations
+    week_ago = (datetime.now() - timedelta(days=7)).isoformat()
+    this_week = len([c for c in conversations if c.get("timestamp", "") >= week_ago])
+
+    # Get unique sessions
+    sessions = set(c.get("session_id", "") for c in conversations)
+
     return {
-        "total_conversations": 247,
-        "total_conversations_change": 18,  # percentage
-        "auto_sent_emails": 156,
-        "auto_sent_emails_change": 12,
-        "avg_confidence": 87,
-        "avg_confidence_change": 3,
-        "avg_response_time": 2.3,
-        "avg_response_time_change": -0.4,
-        "this_week": 247,
-        "this_month": 1043,
-        "auto_send_rate": 63,
+        "total_conversations": total,
+        "total_conversations_change": 0,
+        "auto_sent_emails": 0,
+        "auto_sent_emails_change": 0,
+        "avg_confidence": 0,
+        "avg_confidence_change": 0,
+        "avg_response_time": 0,
+        "avg_response_time_change": 0,
+        "this_week": this_week,
+        "this_month": total,
+        "unique_sessions": len(sessions),
+        "auto_send_rate": 0,
         "system_status": {
             "chat_widget": "active",
-            "gmail_integration": "active",
+            "gmail_integration": "inactive",
             "api_server": "healthy",
             "claude_api": "connected",
-            "uptime": "7 days, 4 hours"
+            "uptime": "running"
         }
     }
 
 # Analytics
 @router.get("/analytics")
 async def get_analytics():
-    """Get detailed analytics data"""
+    """Get analytics from real conversation data"""
+    conversations = get_stored_conversations(limit=10000, days=None)
+    total = len(conversations)
+
     return {
-        "question_categories": [
-            {"category": "Workshop Information", "count": 89, "percentage": 36},
-            {"category": "Shop Time", "count": 52, "percentage": 21},
-            {"category": "Team Events", "count": 43, "percentage": 17},
-            {"category": "Custom Work", "count": 38, "percentage": 15},
-            {"category": "General Info", "count": 25, "percentage": 10}
-        ],
-        "confidence_distribution": [
-            {"range": "90-100%", "count": 124},
-            {"range": "80-89%", "count": 68},
-            {"range": "70-79%", "count": 32},
-            {"range": "60-69%", "count": 18},
-            {"range": "<60%", "count": 5}
-        ],
+        "total_messages": total,
+        "question_categories": [],
+        "confidence_distribution": [],
         "response_times": {
-            "avg": 2.3,
-            "min": 1.2,
-            "max": 4.8,
-            "median": 2.1
+            "avg": 0,
+            "min": 0,
+            "max": 0,
+            "median": 0
         }
     }
 
@@ -184,8 +149,6 @@ async def get_thresholds():
 @router.put("/settings/thresholds")
 async def update_thresholds(thresholds: ThresholdSettings):
     """Update confidence thresholds"""
-    # In production, this would update the .env file or database
-    # For now, we'll just validate and return success
     if not (0.0 <= thresholds.high_confidence_threshold <= 1.0):
         raise HTTPException(status_code=400, detail="High threshold must be between 0 and 1")
     if not (0.0 <= thresholds.medium_confidence_threshold <= 1.0):
@@ -235,81 +198,58 @@ Key principles:
 @router.put("/templates")
 async def update_templates(templates: ResponseTemplate):
     """Update response templates"""
-    # In production, save to database or config file
     return {
         "status": "success",
         "message": "Templates updated",
         "templates": templates.dict()
     }
 
-# Conversations
+# Conversations - REAL DATA
 @router.get("/conversations")
 async def get_conversations(
     limit: int = 50,
-    status: Optional[str] = None,
-    days: Optional[int] = 7
+    days: Optional[int] = None
 ):
-    """Get conversation history with optional filtering"""
-    conversations = MOCK_CONVERSATIONS
-
-    # Filter by status if provided
-    if status and status != "all":
-        conversations = [c for c in conversations if c["routing"] == status]
-
-    # Filter by date range
-    if days:
-        cutoff = datetime.now() - timedelta(days=days)
-        conversations = [c for c in conversations if c["timestamp"] > cutoff]
-
-    # Apply limit
-    conversations = conversations[:limit]
-
-    # Convert datetime to ISO string for JSON serialization
-    for conv in conversations:
-        conv["timestamp"] = conv["timestamp"].isoformat()
-
+    """Get real conversation history"""
+    conversations = get_stored_conversations(limit=limit, days=days)
     return {
         "conversations": conversations,
         "total": len(conversations)
     }
 
-@router.get("/conversations/{conversation_id}")
-async def get_conversation(conversation_id: str):
-    """Get detailed conversation by ID"""
-    for conv in MOCK_CONVERSATIONS:
-        if conv["id"] == conversation_id:
-            conv_copy = conv.copy()
-            conv_copy["timestamp"] = conv_copy["timestamp"].isoformat()
-            return conv_copy
-
-    raise HTTPException(status_code=404, detail="Conversation not found")
+@router.get("/conversations/session/{session_id}")
+async def get_session(session_id: str):
+    """Get all messages in a specific chat session"""
+    messages = get_session_conversations(session_id)
+    if not messages:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return {"session_id": session_id, "messages": messages}
 
 # Gmail Integration
 @router.get("/gmail/status")
 async def get_gmail_status():
     """Get Gmail integration status"""
     return {
-        "connected": True,
-        "email": "steinrueckn@gmail.com",
-        "apps_script_status": "running",
+        "connected": False,
+        "email": "chris@woodthumb.com",
+        "apps_script_status": "not configured",
         "last_check": datetime.now().isoformat(),
-        "api_connection": "healthy",
-        "api_url": "http://localhost:8000/api",
+        "api_connection": "not configured",
+        "api_url": "",
         "stats": {
-            "emails_processed": 247,
-            "auto_sent": 156,
-            "drafts_created": 68,
-            "flagged": 23
+            "emails_processed": 0,
+            "auto_sent": 0,
+            "drafts_created": 0,
+            "flagged": 0
         }
     }
 
 @router.post("/gmail/test")
 async def test_gmail_connection():
     """Test Gmail integration connection"""
-    # In production, this would test the actual Gmail API connection
     return {
-        "status": "success",
-        "message": "Gmail connection is working",
+        "status": "not_configured",
+        "message": "Gmail integration not set up yet",
         "timestamp": datetime.now().isoformat()
     }
 
@@ -319,8 +259,8 @@ async def get_quick_links():
     """Get quick links configuration"""
     return {
         "booking_url": "https://woodthumb.com/workshops",
-        "contact_email": "info@woodthumb.com",
-        "phone": "(510) 555-0100"
+        "contact_email": "chris@woodthumb.com",
+        "phone": "(415) 295-5047"
     }
 
 @router.put("/settings/links")

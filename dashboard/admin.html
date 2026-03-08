@@ -507,9 +507,59 @@
       gap: 12px;
       margin-top: 20px;
     }
+
+    /* Login Overlay */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .login-overlay.hidden { display: none; }
+    .login-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 48px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .login-box h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    .login-box p { color: var(--text-muted); margin-bottom: 24px; }
+    .login-box .form-input { margin-bottom: 16px; text-align: center; font-size: 1.1rem; }
+    .login-error { color: var(--error); font-size: 0.9rem; margin-bottom: 12px; display: none; }
+
+    /* Logout button */
+    .logout-btn {
+      padding: 8px 16px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      margin: 16px 24px;
+    }
+    .logout-btn:hover { background: var(--bg-light); color: var(--error); }
   </style>
 </head>
 <body>
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="login-overlay">
+    <div class="login-box">
+      <h1>Nicole Admin</h1>
+      <p>Wood Thumb Dashboard</p>
+      <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+      <input type="password" class="form-input" id="login-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+      <br>
+      <button class="btn btn-primary" onclick="doLogin()" style="width:100%">Sign In</button>
+    </div>
+  </div>
+
   <div class="dashboard">
     <!-- Sidebar -->
     <aside class="sidebar">
@@ -559,6 +609,7 @@
           </a>
         </div>
       </nav>
+      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
     </aside>
 
     <!-- Main Content -->
@@ -1103,7 +1154,7 @@ Key principles:
       <div id="conversations" class="page">
         <div class="page-header">
           <h2>Conversation History</h2>
-          <p>View and search all customer interactions</p>
+          <p>View all chat widget conversations for quality assurance</p>
         </div>
 
         <div class="card">
@@ -1111,69 +1162,26 @@ Key principles:
             <h3 class="card-title">Search & Filter</h3>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 200px 200px; gap: 12px; margin-bottom: 20px;">
-            <input type="search" class="form-input" placeholder="Search conversations...">
-            <select class="form-select">
-              <option>All Status</option>
-              <option>Auto-sent</option>
-              <option>Draft</option>
-              <option>Flagged</option>
-            </select>
-            <select class="form-select">
-              <option>Last 7 days</option>
-              <option>Last 30 days</option>
-              <option>All time</option>
+          <div style="display: grid; grid-template-columns: 1fr 200px; gap: 12px; margin-bottom: 20px;">
+            <input type="search" class="form-input" id="conv-search" placeholder="Search conversations..." oninput="filterConversations()">
+            <select class="form-select" id="conv-days" onchange="loadConversations()">
+              <option value="7">Last 7 days</option>
+              <option value="30">Last 30 days</option>
+              <option value="">All time</option>
             </select>
           </div>
+
+          <button class="btn btn-secondary" onclick="loadConversations()">Refresh</button>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Recent Conversations</h3>
+            <h3 class="card-title">Chat Conversations</h3>
+            <span id="conv-count" style="color: var(--text-muted); font-size: 0.9rem;"></span>
           </div>
 
-          <div class="conversation-item">
-            <div class="conversation-header">
-              <strong>Workshop inquiry from Sarah Chen</strong>
-              <span class="status-badge active">Auto-sent</span>
-            </div>
-            <div class="conversation-meta">sarah.chen@gmail.com • 5 minutes ago • Confidence: 92%</div>
-            <div class="conversation-message">
-              <strong>Customer:</strong> "Hi! What workshops do you offer for complete beginners? I've never done woodworking before but I'm really interested in learning."
-            </div>
-            <div class="conversation-message" style="margin-top: 8px;">
-              <strong>Nicole:</strong> "Hi Sarah! I'm Nicole, Wood Thumb's AI assistant. Great news - all our workshops are designed for complete beginners! Here are some popular options..."
-            </div>
-          </div>
-
-          <div class="conversation-item">
-            <div class="conversation-header">
-              <strong>Team event request from TechCorp</strong>
-              <span class="status-badge pending">Draft</span>
-            </div>
-            <div class="conversation-meta">events@techcorp.com • 23 minutes ago • Confidence: 78%</div>
-            <div class="conversation-message">
-              <strong>Customer:</strong> "We're interested in booking a team building event for 15 employees. What are your options and what would the cost be?"
-            </div>
-            <div class="conversation-message" style="margin-top: 8px;">
-              <strong>Nicole (Draft):</strong> "Hi! Thanks for reaching out about team building at Wood Thumb. For a group of 15 people, here are our options..."
-            </div>
-            <button class="btn btn-secondary" style="margin-top: 12px;">Review Draft in Gmail</button>
-          </div>
-
-          <div class="conversation-item">
-            <div class="conversation-header">
-              <strong>Complex custom work inquiry</strong>
-              <span class="status-badge inactive">Flagged</span>
-            </div>
-            <div class="conversation-meta">artist@studio.com • 1 hour ago • Confidence: 45%</div>
-            <div class="conversation-message">
-              <strong>Customer:</strong> "I'm working on a multimedia art installation involving reclaimed wood with very specific dimensions and artistic requirements. Can you help?"
-            </div>
-            <div class="conversation-message" style="margin-top: 8px;">
-              <strong>Nicole (Suggested):</strong> "Hi! This sounds like an interesting project. Custom artistic work with specific requirements is best discussed directly with our team..."
-            </div>
-            <button class="btn btn-primary" style="margin-top: 12px;">Respond Personally</button>
+          <div id="conversations-list">
+            <div class="spinner"></div>
           </div>
         </div>
       </div>
@@ -1301,17 +1309,61 @@ Key principles:
   </div>
 
   <script>
+    // Detect API base URL automatically
+    const API_BASE = window.location.origin;
+
+    // ============ LOGIN / LOGOUT ============
+    function doLogin() {
+      const pw = document.getElementById('login-password').value;
+      fetch(API_BASE + '/api/dashboard/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw })
+      }).then(r => {
+        if (r.ok) {
+          sessionStorage.setItem('nicole-auth', 'true');
+          document.getElementById('login-overlay').classList.add('hidden');
+          initDashboard();
+        } else {
+          document.getElementById('login-error').style.display = 'block';
+        }
+      }).catch(() => {
+        document.getElementById('login-error').textContent = 'Cannot connect to server.';
+        document.getElementById('login-error').style.display = 'block';
+      });
+    }
+
+    function doLogout() {
+      sessionStorage.removeItem('nicole-auth');
+      document.getElementById('login-overlay').classList.remove('hidden');
+      document.getElementById('login-password').value = '';
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    // Check if already authenticated
+    if (sessionStorage.getItem('nicole-auth') === 'true') {
+      document.getElementById('login-overlay').classList.add('hidden');
+      // Wait for DOM then init
+      setTimeout(initDashboard, 100);
+    }
+
+    // ============ INIT DASHBOARD ============
+    function initDashboard() {
+      loadKnowledgeOnInit();
+      loadConversations();
+    }
+
     // Navigation
     document.querySelectorAll('.nav-item').forEach(item => {
       item.addEventListener('click', () => {
-        // Update active nav item
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
 
-        // Show corresponding page
         const pageName = item.getAttribute('data-page');
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
         document.getElementById(pageName).classList.add('active');
+
+        if (pageName === 'conversations') loadConversations();
       });
     });
 
@@ -1331,7 +1383,7 @@ Key principles:
       if (data) options.body = JSON.stringify(data);
 
       try {
-        const response = await fetch(`http://localhost:8000${endpoint}`, options);
+        const response = await fetch(API_BASE + endpoint, options);
         return await response.json();
       } catch (error) {
         console.error('API call failed:', error);
@@ -1339,16 +1391,87 @@ Key principles:
       }
     }
 
-    // Knowledge Base functions
+    // ============ CONVERSATIONS ============
+    let allConversations = [];
+
+    function loadConversations() {
+      const days = document.getElementById('conv-days').value;
+      const url = days ? `/api/dashboard/conversations?days=${days}` : '/api/dashboard/conversations';
+
+      callAPI(url).then(data => {
+        allConversations = data.conversations || [];
+        renderConversations(allConversations);
+      }).catch(() => {
+        document.getElementById('conversations-list').innerHTML = '<p style="color:var(--text-muted)">Failed to load conversations.</p>';
+      });
+    }
+
+    function filterConversations() {
+      const q = document.getElementById('conv-search').value.toLowerCase();
+      if (!q) {
+        renderConversations(allConversations);
+        return;
+      }
+      const filtered = allConversations.filter(c =>
+        (c.user_message || '').toLowerCase().includes(q) ||
+        (c.nicole_response || '').toLowerCase().includes(q)
+      );
+      renderConversations(filtered);
+    }
+
+    function renderConversations(conversations) {
+      const el = document.getElementById('conversations-list');
+      const countEl = document.getElementById('conv-count');
+      countEl.textContent = conversations.length + ' messages';
+
+      if (!conversations.length) {
+        el.innerHTML = '<p style="color:var(--text-muted);padding:20px 0;">No conversations yet. Chat widget messages will appear here.</p>';
+        return;
+      }
+
+      // Group by session
+      const sessions = {};
+      conversations.forEach(c => {
+        const sid = c.session_id || 'unknown';
+        if (!sessions[sid]) sessions[sid] = [];
+        sessions[sid].push(c);
+      });
+
+      let html = '';
+      Object.entries(sessions).forEach(([sid, msgs]) => {
+        // Sort messages by timestamp within session
+        msgs.sort((a, b) => (a.timestamp || '').localeCompare(b.timestamp || ''));
+
+        const firstTime = msgs[0].timestamp ? new Date(msgs[0].timestamp).toLocaleString() : '';
+        html += `<div class="conversation-item">`;
+        html += `<div class="conversation-header">`;
+        html += `<strong>Session ${sid.substring(0, 8)}</strong>`;
+        html += `<span class="conversation-meta">${firstTime} &bull; ${msgs.length} message${msgs.length > 1 ? 's' : ''}</span>`;
+        html += `</div>`;
+
+        msgs.forEach(m => {
+          html += `<div class="conversation-message"><strong>Customer:</strong> ${escapeHtml(m.user_message || '')}</div>`;
+          html += `<div class="conversation-message" style="margin-top:4px;border-left:3px solid var(--accent);"><strong>Nicole:</strong> ${m.nicole_response || ''}</div>`;
+        });
+
+        html += `</div>`;
+      });
+
+      el.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+      const d = document.createElement('div');
+      d.textContent = text;
+      return d.innerHTML;
+    }
+
+    // ============ KNOWLEDGE BASE ============
     function saveKnowledge() {
       const content = document.getElementById('knowledge-content').value;
       callAPI('/api/dashboard/knowledge', 'PUT', { content })
-        .then(result => {
-          alert('Knowledge base saved successfully!');
-        })
-        .catch(err => {
-          alert('Failed to save knowledge base. Check console for details.');
-        });
+        .then(() => alert('Knowledge base saved successfully!'))
+        .catch(() => alert('Failed to save knowledge base.'));
     }
 
     function loadKnowledge() {
@@ -1357,32 +1480,34 @@ Key principles:
           document.getElementById('knowledge-content').value = data.content || '';
           alert('Knowledge base reloaded!');
         })
-        .catch(err => {
-          alert('Failed to load knowledge base. Check console for details.');
-        });
+        .catch(() => alert('Failed to load knowledge base.'));
     }
 
-    // AI Assistant Identity functions
+    function loadKnowledgeOnInit() {
+      callAPI('/api/dashboard/knowledge')
+        .then(data => {
+          if (document.getElementById('knowledge-content')) {
+            document.getElementById('knowledge-content').value = data.content || '';
+          }
+        })
+        .catch(err => console.error('Failed to load knowledge base:', err));
+    }
+
+    // ============ SETTINGS ============
     function saveAssistantIdentity() {
       const name = document.getElementById('assistant-name').value;
       const title = document.getElementById('assistant-title').value;
       const intro = document.getElementById('intro-message').value;
 
-      // Save to API (will be implemented)
       callAPI('/api/dashboard/settings/identity', 'PUT', {
         assistant_name: name,
         assistant_title: title,
         intro_message: intro
       })
-        .then(result => {
-          alert(`✅ Assistant identity saved!\n\nName: ${name}\nTitle: ${title}\n\nReload the chat widget to see changes.`);
-        })
-        .catch(err => {
-          alert('✅ Settings saved locally!\n\nNote: Restart the server to apply changes to the chat widget.');
-        });
+        .then(() => alert('Assistant identity saved! Reload the chat widget to see changes.'))
+        .catch(() => alert('Failed to save. Check server connection.'));
     }
 
-    // Scheduling Settings functions
     function saveSchedulingSettings() {
       const platform = document.getElementById('scheduling-platform').value;
       const workshopUrl = document.getElementById('workshop-booking-url').value;
@@ -1399,15 +1524,10 @@ Key principles:
         show_available_times: showAvailable,
         auto_suggest_booking: autoSuggest
       })
-        .then(result => {
-          alert('✅ Scheduling settings saved!\n\nNicole will now use these booking links when customers ask about workshops, team events, or shop time.');
-        })
-        .catch(err => {
-          alert('✅ Settings saved locally!\n\nChanges will take effect after server restart.');
-        });
+        .then(() => alert('Scheduling settings saved!'))
+        .catch(() => alert('Failed to save.'));
     }
 
-    // Event Settings functions
     function saveEventSettings() {
       const featuredEvents = document.getElementById('featured-events').value;
       const showPricing = document.getElementById('show-pricing').checked;
@@ -1418,22 +1538,9 @@ Key principles:
         show_pricing: showPricing,
         detail_level: detailLevel
       })
-        .then(result => {
-          alert('✅ Event display settings saved!\n\nNicole will use these preferences when discussing workshops and events.');
-        })
-        .catch(err => {
-          alert('✅ Settings saved locally!');
-        });
+        .then(() => alert('Event display settings saved!'))
+        .catch(() => alert('Failed to save.'));
     }
-
-    // Load initial knowledge base content
-    callAPI('/api/dashboard/knowledge')
-      .then(data => {
-        if (document.getElementById('knowledge-content')) {
-          document.getElementById('knowledge-content').value = data.content || '';
-        }
-      })
-      .catch(err => console.error('Failed to load knowledge base:', err));
   </script>
 </body>
 </html>

@@ -7,6 +7,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Optional
 from .nicole import nicole
+from .conversation_store import log_conversation
 import json
 
 router = APIRouter()
@@ -20,6 +21,7 @@ class Message(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     conversation_history: Optional[List[Message]] = []
+    session_id: Optional[str] = None
     stream: bool = True
 
     class Config:
@@ -56,6 +58,7 @@ async def chat(request: ChatRequest):
         if request.stream:
             # Streaming response
             async def generate():
+                full_response = ""
                 # generate_response returns the async generator directly when stream=True
                 response_generator = nicole.generate_response(
                     message=request.message,
@@ -63,6 +66,15 @@ async def chat(request: ChatRequest):
                     stream=True
                 )
                 async for chunk in response_generator:
+                    if chunk.get("type") == "chunk":
+                        full_response += chunk.get("content", "")
+                    elif chunk.get("type") == "complete":
+                        # Log the completed conversation
+                        log_conversation(
+                            session_id=request.session_id,
+                            user_message=request.message,
+                            nicole_response=chunk.get("response", full_response)
+                        )
                     # Send as Server-Sent Events
                     yield f"data: {json.dumps(chunk)}\n\n"
 
@@ -80,6 +92,12 @@ async def chat(request: ChatRequest):
                 message=request.message,
                 conversation_history=history,
                 stream=False
+            )
+            # Log the conversation
+            log_conversation(
+                session_id=request.session_id,
+                user_message=request.message,
+                nicole_response=result.get("response", "")
             )
             return result
 

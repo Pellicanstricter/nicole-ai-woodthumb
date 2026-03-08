@@ -5,9 +5,11 @@ System prompts and knowledge base for Nicole
 import json
 from pathlib import Path
 
-# Load knowledge base
-with open('knowledge/woodthumb.md', 'r') as f:
-    KNOWLEDGE_BASE = f.read()
+# Load knowledge base dynamically
+def load_knowledge_base():
+    """Load knowledge base fresh each time so dashboard edits take effect immediately"""
+    with open('knowledge/woodthumb.md', 'r') as f:
+        return f.read()
 
 # Load dashboard configuration
 def load_dashboard_config():
@@ -126,7 +128,7 @@ Guidelines:{pricing_guidance}{suggestion_guidance}
 
 KNOWLEDGE BASE:
 
-{KNOWLEDGE_BASE}
+{load_knowledge_base()}
 
 ---
 

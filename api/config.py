@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     owner_email: str = "info@woodthumb.com"
     alert_webhook_url: Optional[str] = None
 
+    # Dashboard Authentication
+    dashboard_password: str = "woodthumb2024"
+
     class Config:
         env_file = ".env"
         case_sensitive = False
