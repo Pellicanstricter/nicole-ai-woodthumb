@@ -21,6 +21,7 @@ COPY --from=builder /root/.local /root/.local
 COPY api/ ./api/
 COPY knowledge/ ./knowledge/
 COPY widget/ ./widget/
+COPY dashboard/ ./dashboard/
 COPY start.sh ./start.sh
 
 # Make sure scripts are in PATH
