@@ -35,9 +35,22 @@ def _save_conversations(conversations: List[dict]):
         json.dump(conversations, f, indent=2, default=str)
 
 
+RETENTION_DAYS = 90
+
+
+def _purge_old(conversations: List[dict]) -> List[dict]:
+    """Remove conversations older than RETENTION_DAYS"""
+    from datetime import timedelta
+    cutoff = (datetime.now() - timedelta(days=RETENTION_DAYS)).isoformat()
+    return [c for c in conversations if c.get("timestamp", "") >= cutoff]
+
+
 def log_conversation(session_id: Optional[str], user_message: str, nicole_response: str):
     """Log a single conversation exchange"""
     conversations = _load_conversations()
+
+    # Purge old conversations on every write
+    conversations = _purge_old(conversations)
 
     entry = {
         "id": str(uuid.uuid4())[:8],
