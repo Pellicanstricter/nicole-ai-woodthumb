@@ -737,15 +737,7 @@
 
           <div class="form-group">
             <label class="form-label">Knowledge Base Content</label>
-            <textarea class="form-textarea" id="knowledge-content" rows="20" placeholder="Enter Wood Thumb information in markdown format..."># Wood Thumb - Community Woodshop
-
-## About
-Wood Thumb is Oakland's premier community woodshop...
-
-## Workshops
-- Cutting Board Workshop ($75, 2 hours)
-- Side Table Workshop ($120, 3 hours)
-...</textarea>
+            <textarea class="form-textarea" id="knowledge-content" rows="20" placeholder="Loading knowledge base..."></textarea>
             <div class="form-help">Use markdown formatting. This content is used to answer all customer questions.</div>
           </div>
 
@@ -765,11 +757,11 @@ Wood Thumb is Oakland's premier community woodshop...
           </div>
           <div class="form-group">
             <label class="form-label">Contact Email</label>
-            <input type="email" class="form-input" value="info@woodthumb.com" placeholder="info@...">
+            <input type="email" class="form-input" value="nicole@woodthumb.com" placeholder="info@...">
           </div>
           <div class="form-group">
             <label class="form-label">Phone Number</label>
-            <input type="tel" class="form-input" value="(510) 555-0100" placeholder="(555) 555-5555">
+            <input type="tel" class="form-input" value="(415) 295-5047" placeholder="(555) 555-5555">
           </div>
           <button class="btn btn-primary">Update Links</button>
         </div>
@@ -780,59 +772,6 @@ Wood Thumb is Oakland's premier community woodshop...
         <div class="page-header">
           <h2>Settings</h2>
           <p>Configure Nicole's behavior and thresholds</p>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Confidence Thresholds</h3>
-            <p class="card-subtitle">Control when emails are auto-sent, saved as drafts, or flagged for review</p>
-          </div>
-
-          <div class="alert alert-warning">
-            <div>
-              <strong>Important:</strong> Higher thresholds mean Nicole will be more cautious and send fewer emails automatically. Start conservative and adjust based on results.
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">
-              Auto-Send Threshold
-              <span class="slider-value" id="auto-send-value">85%</span>
-            </label>
-            <input type="range" class="slider" id="auto-send-slider" min="70" max="95" value="85" oninput="updateSlider('auto-send')">
-            <div class="form-help">Emails with confidence above this will be sent automatically</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">
-              Draft Threshold
-              <span class="slider-value" id="draft-value">60%</span>
-            </label>
-            <input type="range" class="slider" id="draft-slider" min="40" max="80" value="60" oninput="updateSlider('draft')">
-            <div class="form-help">Emails with confidence above this will be saved as drafts for review</div>
-          </div>
-
-          <button class="btn btn-primary">Save Thresholds</button>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">API Configuration</h3>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Anthropic API Key</label>
-            <input type="password" class="form-input" value="sk-ant-api03-..." placeholder="sk-ant-...">
-            <div class="form-help">Your Claude API key from Anthropic</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Owner Email</label>
-            <input type="email" class="form-input" value="info@woodthumb.com" placeholder="owner@...">
-            <div class="form-help">Email address for notifications and flagged messages</div>
-          </div>
-
-          <button class="btn btn-primary">Update API Settings</button>
         </div>
 
         <div class="card">
