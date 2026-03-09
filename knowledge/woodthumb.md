@@ -2,7 +2,13 @@
 
 ## About Wood Thumb
 
-Wood Thumb is a traditional San Francisco woodshop located in the SOMA district at 968 Mission St., San Francisco, CA 94103. We offer hands-on woodworking classes where you learn new skills and leave with a finished project. Our mission is to help people make "something real with your hands" through accessible woodworking instruction.
+Wood Thumb is a traditional San Francisco woodshop located in the SOMA district at 968 Mission St., San Francisco, CA 94103. Founded in 2011 by brothers Chris and David, their vision was to "build a creative community in San Francisco that embodies craftsmanship and sustainability."
+
+**History:** The brothers initially manufactured small batches of wood products sold to thousands of stores nationwide. Their signature product, the wood tie, gained attention through late-night TV appearances, magazine features, and retail placement. Around 2016, they transitioned to focus on woodworking education. The shop now serves thousands of public workshop students annually.
+
+We offer hands-on woodworking classes where you learn new skills and leave with a finished project. Our mission is to help people make "something real with your hands" through accessible woodworking instruction.
+
+**Notable Corporate Clients:** Google, Facebook, Twitter, Medium, Lyft, Pinterest, Airbnb, Instagram, and Apple have all hosted team events here.
 
 **Contact Information:**
 - **Address**: 968 Mission St., San Francisco, CA 94103
@@ -301,6 +307,7 @@ Rent access to our fully-equipped woodshop for your own projects!
 
 **Specialty Equipment:**
 - Glowforge laser cutter
+- ShopBot CNC automated tool
 
 ### Perfect For
 - Beginners tackling first projects
@@ -317,25 +324,51 @@ Rent access to our fully-equipped woodshop for your own projects!
 
 ## Custom Work & Commissions
 
-Have a specific furniture or woodworking project in mind?
+We've been building custom furniture, installations, cabinets, and contract products for over a decade.
 
 ### What We Can Do
-- Custom furniture pieces
-- Bespoke woodworking projects
-- Unique designs tailored to your space
-- Repairs and refinishing
+- Custom furniture design and construction
+- Paneling and design installations
+- Custom signage
+- Lasercutting and engraving
+- Contract products
+- Cabinets
+
+### Materials
+We work with clients to select appropriate materials, ranging from ancient reclaimed redwood slabs to cost-effective paneling options.
+
+### Equipment for Custom Projects
+- SawStop tablesaw, chop saws, planers, router tables, sanders
+- ShopBot CNC automated tool
+- Glowforge lasercutter
+- Hand tools and fastening supplies
 
 ### Process
-1. Contact us with your project idea
-2. We'll discuss design, materials, timeline
-3. Receive quote and timeline estimate
+1. Submit a quote request with project title, detailed specifications (materials, quantity, size), desired completion timeline, and reference files/inspiration images
+2. We'll discuss design, materials, and timeline
+3. Receive quote
 4. Approve design and begin work
 5. Pick up your finished custom piece
 
 ### Contact for Custom Work
-- Email: nicole@woodthumb.com
+- Email: chris@woodthumb.com or nicole@woodthumb.com
 - Phone: (415) 295-5047
-- Include: dimensions, design ideas, photos (if applicable), budget range
+- Website: https://woodthumb.com/custom
+
+---
+
+## Woodcut Prints
+
+Wood Thumb creates handmade woodcut prints from extraordinary reclaimed wood sources. Materials are sourced from fallen and reclaimed wood, including a Douglas Fir beam from a mid-1800s San Francisco pier, cypress rounds, and large elm crosscuts.
+
+### Production Process
+Each wood round is meticulously burned, carved, and gently scraped to expose growth rings and create intricate patterns. They are hand-printed using archival cotton paper and traditional Japanese woodblock ink.
+
+### Wood Types Featured
+Elm, Cypress, Cedar, Walnut, Red Oak
+
+### Pricing & Ordering
+Contact nicole@woodthumb.com for price list. View gallery at https://woodthumb.com/woodcut-prints
 
 ---
 
@@ -357,8 +390,8 @@ No! Our Level 1 workshops are designed for complete beginners. We teach you ever
 - Check workshop description for specific duration
 
 ### Can I bring kids?
-- Age requirements vary by workshop
-- Contact us for specific workshop age requirements
+- Kids are welcome with adult supervision across all class levels
+- Contact us for specific age recommendations
 - Phone: (415) 295-5047
 
 ### What if I need to cancel?

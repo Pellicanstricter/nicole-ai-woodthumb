@@ -603,10 +603,6 @@
             <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
             <span>Conversations</span>
           </a>
-          <a class="nav-item" data-page="gmail">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span>Gmail Integration</span>
-          </a>
         </div>
       </nav>
       <button class="logout-btn" onclick="doLogout()">Sign Out</button>
@@ -1023,23 +1019,6 @@ Spoon Carving Workshop</textarea>
 
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Email Signature</h3>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Signature Text</label>
-            <textarea class="form-textarea" rows="5">Best,
-Nicole
-AI Assistant at Wood Thumb
-info@woodthumb.com</textarea>
-            <div class="form-help">This signature is added to all email responses</div>
-          </div>
-
-          <button class="btn btn-primary">Save Signature</button>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
             <h3 class="card-title">Brand Voice Guidelines</h3>
           </div>
 
@@ -1095,125 +1074,6 @@ Key principles:
         </div>
       </div>
 
-      <!-- Gmail Integration Page -->
-      <div id="gmail" class="page">
-        <div class="page-header">
-          <h2>Gmail Integration</h2>
-          <p>Manage automated email processing</p>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Integration Status</h3>
-          </div>
-
-          <table class="table">
-            <tbody>
-              <tr>
-                <td><strong>Gmail Connection</strong></td>
-                <td><span class="status-badge active">Connected</span></td>
-                <td>steinrueckn@gmail.com</td>
-              </tr>
-              <tr>
-                <td><strong>Apps Script</strong></td>
-                <td><span class="status-badge active">Running</span></td>
-                <td>Last check: 2 minutes ago</td>
-              </tr>
-              <tr>
-                <td><strong>Email Processing</strong></td>
-                <td><span class="status-badge active">Enabled</span></td>
-                <td>Checking every 5 minutes</td>
-              </tr>
-              <tr>
-                <td><strong>API Connection</strong></td>
-                <td><span class="status-badge active">Healthy</span></td>
-                <td>http://localhost:8000/api</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="btn-group">
-            <button class="btn btn-secondary">Test Connection</button>
-            <button class="btn btn-secondary">View Apps Script</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Email Statistics</h3>
-          </div>
-
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-label">Emails Processed</div>
-              <div class="stat-value">247</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Auto-Sent</div>
-              <div class="stat-value">156</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Drafts Created</div>
-              <div class="stat-value">68</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Flagged</div>
-              <div class="stat-value">23</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Setup Instructions</h3>
-          </div>
-
-          <div class="alert alert-info">
-            <div>
-              <strong>Already set up?</strong> Your Gmail integration is working. If you need to reconfigure or troubleshoot, see the detailed setup guide.
-            </div>
-          </div>
-
-          <ol style="line-height: 1.8; color: var(--text-muted);">
-            <li>Go to <a href="https://script.google.com" target="_blank" style="color: var(--accent);">Google Apps Script</a></li>
-            <li>Create a new project named "Nicole - Wood Thumb"</li>
-            <li>Copy the Gmail integration code from your installation</li>
-            <li>Set up time-based trigger to run every 5 minutes</li>
-            <li>Grant necessary Gmail permissions</li>
-          </ol>
-
-          <button class="btn btn-secondary">View Full Setup Guide</button>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Email Labels</h3>
-          </div>
-
-          <div class="form-help" style="margin-bottom: 16px;">Nicole automatically organizes emails using these Gmail labels:</div>
-
-          <table class="table">
-            <tbody>
-              <tr>
-                <td><strong>Nicole/Processed</strong></td>
-                <td>All emails Nicole has reviewed</td>
-              </tr>
-              <tr>
-                <td><strong>Nicole/Auto-Sent</strong></td>
-                <td>High-confidence responses sent automatically</td>
-              </tr>
-              <tr>
-                <td><strong>Nicole/Draft</strong></td>
-                <td>Medium-confidence drafts for your review</td>
-              </tr>
-              <tr>
-                <td><strong>Nicole/Flagged</strong></td>
-                <td>Low-confidence or complex inquiries needing personal attention</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </main>
   </div>
 
@@ -1329,7 +1189,6 @@ Key principles:
           <tr><td><strong>Chat Widget</strong></td><td>${badge(status.chat_widget || 'unknown')}</td><td></td></tr>
           <tr><td><strong>API Server</strong></td><td>${badge(status.api_server || 'unknown')}</td><td></td></tr>
           <tr><td><strong>Claude API</strong></td><td>${badge(status.claude_api || 'unknown')}</td><td></td></tr>
-          <tr><td><strong>Gmail Integration</strong></td><td>${badge(status.gmail_integration || 'unknown')}</td><td></td></tr>
         `;
       }).catch(() => {});
 
