@@ -82,26 +82,15 @@ For those with prior workshop experience who want to advance their skills:
 
 ### Special Workshops & Events
 
-#### **Valentine's Day Date Workshop**
-- **Date**: Friday, February 14, 2026
-- **Times**: 3:00 PM or 7:00 PM
-- **Price**: $290 (3 PM session) / $375 (7 PM session with dinner included)
-- Two-person couples workshop (price covers both people)
-- Create matching "Perfect-Match" walnut cutting boards
-- Perfect date activity or unique Valentine's gift
-- Romantic and creative experience
-- **Book 3 PM:** https://x2-checkout.xola.app/flows/mvp?button=6984fc40630542f4ee0cb493
-- **Book 7 PM:** https://x2-checkout.xola.app/flows/mvp?button=61bbbc98f33a4242854c21ce
-
 #### **Open Shop Night**
-- **Date**: Thursday, February 26, 2026
+- Recurring event - check website for next available date
 - **Time**: 6:30 PM - 8:30 PM (Safety overview at 6:00 PM for newcomers)
 - **Price**: $80 per session ($20 additional safety overview for first-timers)
 - Bring your own custom project idea or purchase walnut on-site
 - Access to all tools and workspace
 - Staff support available
 - Perfect for working on personal projects
-- **Book:** https://checkout.xola.app/index.html#seller/61005fc48c56bd4b417a165d/experiences/695da0e108f0c0a0a003ab16
+- Project ideas: boxes, shelves, improvements, cutting boards, handmade gifts
 
 **Full Workshop Calendar & Booking:**
 - **View all available dates and times:** https://woodthumb.com/workshops
@@ -253,6 +242,10 @@ Wood Thumb offers private team building experiences for companies and groups! "G
 - Holiday parties
 - Group celebrations
 - Creative team activities
+
+### "Can't Decide?" Option
+- You can reserve a time slot without choosing a project right away
+- Pick your workshop project later once you've discussed with your team
 
 ### Booking Team Events
 **Contact us directly:**
