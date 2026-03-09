@@ -354,6 +354,26 @@ async def get_event_settings():
         "detail_level": "moderate"
     })
 
+# Quick Replies
+@router.get("/settings/quick-replies")
+async def get_quick_replies():
+    """Get quick reply buttons for chat widget"""
+    config = load_config()
+    return config.get("quick_replies", [
+        {"label": "Workshops", "message": "What workshops do you offer?"},
+        {"label": "Pricing", "message": "How much do workshops cost?"},
+        {"label": "Team Events", "message": "I want to plan a team event"},
+        {"label": "Shop Time", "message": "Tell me about shop time"}
+    ])
+
+@router.put("/settings/quick-replies")
+async def update_quick_replies(replies: List[Dict[str, str]]):
+    """Update quick reply buttons"""
+    config = load_config()
+    config["quick_replies"] = replies
+    save_config(config)
+    return {"status": "success", "message": "Quick replies updated", "quick_replies": replies}
+
 @router.put("/settings/events")
 async def update_event_settings(settings: EventSettings):
     """Update event display settings"""

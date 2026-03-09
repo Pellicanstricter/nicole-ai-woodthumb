@@ -1,15 +1,21 @@
 """
 Simple JSON-based conversation storage for Nicole
 Logs all chat widget conversations for dashboard review
+Uses /data volume on Railway for persistence across deploys
 """
 
 import json
+import os
 import uuid
 from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
 
-CONVERSATIONS_FILE = Path(__file__).parent / "conversations.json"
+# Use /data on Railway (persistent volume), local path otherwise
+if os.path.isdir('/data'):
+    CONVERSATIONS_FILE = Path('/data/conversations.json')
+else:
+    CONVERSATIONS_FILE = Path(__file__).parent / "conversations.json"
 
 
 def _load_conversations() -> List[dict]:
@@ -58,7 +64,6 @@ def get_conversations(limit: int = 50, days: Optional[int] = None) -> List[dict]
     # Sort newest first
     conversations.sort(key=lambda c: c.get("timestamp", ""), reverse=True)
 
-    # Group by session_id for display
     return conversations[:limit]
 
 

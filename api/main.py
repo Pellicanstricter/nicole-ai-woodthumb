@@ -62,6 +62,24 @@ async def health_check():
     }
 
 
+@app.get("/api/widget-config")
+async def widget_config():
+    """Public endpoint for chat widget to load quick replies and settings"""
+    from .dashboard import load_config
+    config = load_config()
+    identity = config.get("assistant_identity", {})
+    return {
+        "quick_replies": config.get("quick_replies", [
+            {"label": "Workshops", "message": "What workshops do you offer?"},
+            {"label": "Pricing", "message": "How much do workshops cost?"},
+            {"label": "Team Events", "message": "I want to plan a team event"},
+            {"label": "Shop Time", "message": "Tell me about shop time"}
+        ]),
+        "assistant_name": identity.get("assistant_name", "Nicole"),
+        "intro_message": identity.get("intro_message", "Hi! I'm Nicole, Wood Thumb's AI assistant. How can I help you today?")
+    }
+
+
 @app.get("/api/knowledge")
 async def knowledge_info():
     """Returns knowledge base metadata"""

@@ -55,10 +55,6 @@
             </div>
           </div>
           <div class="nicole-quick-replies" id="nicole-quick-replies">
-            <button class="nicole-quick-reply" data-message="What workshops do you offer?">Workshops</button>
-            <button class="nicole-quick-reply" data-message="How much do workshops cost?">Pricing</button>
-            <button class="nicole-quick-reply" data-message="I want to plan a team event">Team Events</button>
-            <button class="nicole-quick-reply" data-message="Tell me about shop time">Shop Time</button>
           </div>
         </div>
 
@@ -428,14 +424,53 @@
       autoResize(e.target);
     });
 
-    // Quick reply buttons
-    const quickReplyButtons = document.querySelectorAll('.nicole-quick-reply');
-    quickReplyButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const message = button.getAttribute('data-message');
-        sendMessage(message);
+    // Load quick replies and intro from API
+    loadWidgetConfig();
+  }
+
+  function loadWidgetConfig() {
+    fetch(`${CONFIG.apiUrl}/widget-config`)
+      .then(r => r.json())
+      .then(data => {
+        // Set quick reply buttons
+        const container = document.getElementById('nicole-quick-replies');
+        if (container && data.quick_replies) {
+          container.innerHTML = '';
+          data.quick_replies.forEach(qr => {
+            const btn = document.createElement('button');
+            btn.className = 'nicole-quick-reply';
+            btn.setAttribute('data-message', qr.message);
+            btn.textContent = qr.label;
+            btn.addEventListener('click', () => sendMessage(qr.message));
+            container.appendChild(btn);
+          });
+        }
+
+        // Set intro message
+        if (data.intro_message) {
+          const introEl = document.querySelector('.nicole-message-content');
+          if (introEl) introEl.textContent = data.intro_message;
+        }
+      })
+      .catch(() => {
+        // Fallback - add default quick replies
+        const container = document.getElementById('nicole-quick-replies');
+        if (container) {
+          const defaults = [
+            {label: 'Workshops', message: 'What workshops do you offer?'},
+            {label: 'Team Events', message: 'I want to plan a team event'},
+            {label: 'Shop Time', message: 'Tell me about shop time'}
+          ];
+          defaults.forEach(qr => {
+            const btn = document.createElement('button');
+            btn.className = 'nicole-quick-reply';
+            btn.setAttribute('data-message', qr.message);
+            btn.textContent = qr.label;
+            btn.addEventListener('click', () => sendMessage(qr.message));
+            container.appendChild(btn);
+          });
+        }
       });
-    });
   }
 
   // Load when DOM is ready

@@ -776,6 +776,22 @@
 
         <div class="card">
           <div class="card-header">
+            <h3 class="card-title">Quick Reply Buttons</h3>
+            <p class="card-subtitle">The suggested question chips customers see when they open the chat</p>
+          </div>
+
+          <div id="quick-replies-editor">
+            <div class="spinner"></div>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <button class="btn btn-secondary" onclick="addQuickReply()">+ Add Button</button>
+            <button class="btn btn-primary" onclick="saveQuickReplies()" style="margin-left: 8px;">Save Quick Replies</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
             <h3 class="card-title">Widget Settings</h3>
           </div>
 
@@ -1075,6 +1091,7 @@ Key principles:
         if (pageName === 'conversations') loadConversations();
         if (pageName === 'analytics') loadAnalytics();
         if (pageName === 'overview') loadOverview();
+        if (pageName === 'settings') loadQuickReplies();
       });
     });
 
@@ -1319,6 +1336,54 @@ Key principles:
       const d = document.createElement('div');
       d.textContent = text;
       return d.innerHTML;
+    }
+
+    // ============ QUICK REPLIES ============
+    let quickRepliesData = [];
+
+    function loadQuickReplies() {
+      callAPI('/api/dashboard/settings/quick-replies').then(data => {
+        quickRepliesData = data || [];
+        renderQuickRepliesEditor();
+      }).catch(() => {});
+    }
+
+    function renderQuickRepliesEditor() {
+      const el = document.getElementById('quick-replies-editor');
+      if (!quickRepliesData.length) {
+        el.innerHTML = '<p style="color:var(--text-muted)">No quick replies configured.</p>';
+        return;
+      }
+      let html = '';
+      quickRepliesData.forEach((qr, i) => {
+        html += `<div style="display:grid;grid-template-columns:150px 1fr 40px;gap:8px;margin-bottom:8px;align-items:center;">
+          <input type="text" class="form-input" value="${escapeHtml(qr.label)}" placeholder="Button text" onchange="quickRepliesData[${i}].label=this.value">
+          <input type="text" class="form-input" value="${escapeHtml(qr.message)}" placeholder="Message sent when clicked" onchange="quickRepliesData[${i}].message=this.value">
+          <button class="btn btn-secondary" onclick="removeQuickReply(${i})" style="padding:6px 10px;color:var(--error);">X</button>
+        </div>`;
+      });
+      el.innerHTML = html;
+    }
+
+    function addQuickReply() {
+      quickRepliesData.push({label: '', message: ''});
+      renderQuickRepliesEditor();
+    }
+
+    function removeQuickReply(index) {
+      quickRepliesData.splice(index, 1);
+      renderQuickRepliesEditor();
+    }
+
+    function saveQuickReplies() {
+      const valid = quickRepliesData.filter(qr => qr.label && qr.message);
+      callAPI('/api/dashboard/settings/quick-replies', 'PUT', valid)
+        .then(() => {
+          quickRepliesData = valid;
+          renderQuickRepliesEditor();
+          alert('Quick replies saved! Changes will appear in the chat widget immediately.');
+        })
+        .catch(() => alert('Failed to save quick replies.'));
     }
 
     // ============ KNOWLEDGE BASE ============

@@ -13,6 +13,12 @@
     "show_available_times": true,
     "auto_suggest_booking": true
   },
+  "quick_replies": [
+    {"label": "Workshops", "message": "What workshops do you offer?"},
+    {"label": "Pricing", "message": "How much do workshops cost?"},
+    {"label": "Team Events", "message": "I want to plan a team event"},
+    {"label": "Shop Time", "message": "Tell me about shop time"}
+  ],
   "event_display": {
     "featured_events": [
       "Triangle Shelf ($94)",
